@@ -1,0 +1,13 @@
+# Byte-compiled files
+*.py[cod]
+__pycache__/
+
+# IDE settings
+.vscode/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Miscellaneous
+*.swp
+

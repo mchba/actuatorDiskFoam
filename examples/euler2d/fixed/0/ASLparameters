@@ -1,0 +1,16 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                |                                                 |
+| \      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \    /   O peration     | Version:  v2206                                 |
+|   \  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// Paramters for the neutral atmospheric surface layer (ASL)
+// aka. the log-law inflow.
+Uref                 8.0000;
+flowVelocity         ($Uref 0 0);
+pressure             0;
+
+

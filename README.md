@@ -53,6 +53,7 @@ $$
 $$
 P = \frac{1}{2} \rho A U_d^3 C_P',
 $$
+
 where $U_d$ is the disk-averaged velocity. Since $U_d$ is calculated from the CFD solution, the thrust and power are *not* fixed a-priori.
 
 Note, that only $C_T$ is needed for the Calaf AD, because both $C_T'$ and $C_P'$ (based on disk-averaged velocity) can be calculated from 1D momentum theory as

@@ -9,13 +9,6 @@ Flow assumptions:
 
 These are typical assumptions for wind farm flows. The AD model can in theory be used for both RANS and LES, but has only been tested for RANS.
 
-## Motivation
-
-In the default AD model of OpenFOAM [actuationDisk](https://doc.openfoam.com/2312/tools/processing/numerics/fvoptions/sources/rtm/actuationDisk/):
-- A "monitor" point is used to probe the freestream velocity in the "Froude's method" variant. This makes sense for a single turbine, but not for turbines in a wind farm.
-- Since the "Froude's method" variant essentially just is a fixed force AD, it is unnessarcy to use 1D momentum theory for this.
-- The variableScaling implementation is misunderstood in two ways: (i) "variable scaling" in the original paper by [van der Laan et al. (2015)](https://doi.org/10.1002/we.1816)  refers to scaling the force distribution on the AD, which is not done in the implementation, and (ii) the monitor point is still used, while van der Laan et al. used a calibration procedure to exactly avoid this.
-- The implementation also accomodates compressible and multi-phase flow, which naturally makes the code longer and more complicated.
 
 ## AD variants in actuatorDiskFoam
 
@@ -31,9 +24,11 @@ Only the calaf AD should be used for wind farm studies, since the freestream vel
 ### Fixed force
 
 The thrust and power of the AD are
+
 $$
 T = \frac{1}{2} \rho A U_\infty^2 C_T,
 $$
+
 $$
 P = \frac{1}{2} \rho A U_\infty^3 C_P.
 $$
@@ -50,9 +45,11 @@ Inputs:
 ### Calaf
 
 The thrust and power of the AD
+
 $$
 T = \frac{1}{2} \rho A U_d^2 C_T',
 $$
+
 $$
 P = \frac{1}{2} \rho A U_d^3 C_P',
 $$
@@ -103,12 +100,19 @@ To be able to use this AD, it must first be compiled and linked to your OpenFOAM
 3. `cd $WM_PROJECT_USER_DIR/src/actuatorDiskFoam`
 4. `wmake`. This compiles the AD code and creates a library called `lib_actuatorDiskFoam.so` in the `$WM_PROJECT_USER_DIR/platforms` folder.
 
-If you look at the examples, you will find that they all have a reference to the `lib_actuatorDiskFoam.so`-file in their `system/controlDict`-file.
+If you look at the [examples](https://github.com/mchba/actuatorDiskFoam/tree/main/examples), you will find that they all have a reference to the `lib_actuatorDiskFoam.so`-file in their `system/controlDict`-file.
 
 ## Examples
 
-Examples are provided in the examples folder.
+Examples are provided in the [examples folder](https://github.com/mchba/actuatorDiskFoam/tree/main/examples).
 
+## Motivation for developing this code
+
+When I began using OpenFOAM for wind farm simulations, I first used the default AD model of OpenFOAM, [actuationDisk](https://doc.openfoam.com/2312/tools/processing/numerics/fvoptions/sources/rtm/actuationDisk/), but then realized that it has some deficiencies:
+- A "monitor" point is used to probe the freestream velocity in the "Froude's method" variant. This makes sense for a single turbine, but not for turbines in a wind farm.
+- Since the "Froude's method" variant essentially just is a fixed force AD, it is unnessarcy to use 1D momentum theory for this.
+- The variableScaling implementation is misunderstood in two ways: (i) "variable scaling" in the original paper by [van der Laan et al. (2015)](https://doi.org/10.1002/we.1816)  refers to scaling the force distribution on the AD, which is not done in the implementation, and (ii) the monitor point is still used, while van der Laan et al. used a calibration procedure to exactly avoid this.
+- The implementation also accomodates compressible and multi-phase flow, which naturally makes the code longer and more complicated.
 
 ## Other AD implementations for OpenFOAM
 
@@ -116,7 +120,7 @@ Here is a list of other open-source AD models for OpenFOAM:
 
 | Project            | Last commit | OpenFOAM version            | Force allocation method | Tangential forces |
 |--------------------|--------------------|------------------------------|------------------------|-------------|
-| [actuatorDiskFoam](https://github.com/your-repo)   | 2025 | Tested in v2206 | Cylinder volume           | No |
+| [actuatorDiskFoam](https://github.com/mchba/actuatorDiskFoam)   | 2025 | Tested in v2206 | Cylinder volume           | No |
 | [actuationDisk](https://doc.openfoam.com/2312/tools/processing/numerics/fvoptions/sources/rtm/actuationDisk/)     | 2024 | v2412 | Cylinder volume           | No |
 | [actuationDiskRings](https://github.com/jteich99/actuationDiskRings/tree/main)    | 2024 | v2112 | Gaussian smearing           | Yes  |
 | [ADM_NR_diskBased](https://github.com/AUfluids/k-epsilon-Sk/tree/main/ADM_NR_diskBased)  |  2024 | Used v1812 | Cylinder volume           | No  |

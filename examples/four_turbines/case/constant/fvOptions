@@ -1,0 +1,64 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                |                                                 |
+| \      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \    /   O peration     | Version:  v2206                                 |
+|   \  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version         2.0;
+    format          ascii;
+    class           dictionary;
+    object          fvOptions;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// Disk 1
+disk1
+{
+    type            actuatorDiskFoam;
+    variant         calaf;
+    selectionMode   cellSet;
+    cellSet         actuationDisk1;
+    diskDir         (1 0 0);
+    Ct              0.7500;
+    diskArea        5026.5;
+}
+
+// Disk 2
+disk2
+{
+    type            actuatorDiskFoam;
+    variant         calaf;
+    selectionMode   cellSet;
+    cellSet         actuationDisk2;
+    diskDir         (1 0 0);
+    Ct              0.7500;
+    diskArea        5026.5;
+}
+
+// Disk 3
+disk3
+{
+    type            actuatorDiskFoam;
+    variant         calaf;
+    selectionMode   cellSet;
+    cellSet         actuationDisk3;
+    diskDir         (1 0 0);
+    Ct              0.7500;
+    diskArea        5026.5;
+}
+
+// Disk 4
+disk4
+{
+    type            actuatorDiskFoam;
+    variant         calaf;
+    selectionMode   cellSet;
+    cellSet         actuationDisk4;
+    diskDir         (1 0 0);
+    Ct              0.7500;
+    diskArea        5026.5;
+}
+

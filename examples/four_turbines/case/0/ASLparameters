@@ -1,0 +1,31 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                |                                                 |
+| \      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \    /   O peration     | Version:  v2206                                 |
+|   \  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// Hub-height values for neutral atmospheric log-law.
+Uref                 8.0000;        // [m/s]
+flowVelocity         ($Uref 0 0);   // [m/s]
+pressure             0;             // [Pa/(kg/m3)]
+turbulentKE          0.2799360000;  // [m2/s2]
+turbulentEpsilon     0.0008479746;  // [m2/s3]
+
+// The following are needed for 3D simulations.
+Zref                 70.0;    // [m]
+zDir                 (0 0 1); // [-]
+flowDir              (1 0 0); // [-]
+z0                   uniform 0.0008503510; // [m]
+d                    uniform 0; // [m]
+Cmu                  0.0900000000; // [-]
+kappa                0.4100000000; // [-]
+Utop                 10.3695255467; // [m/s]
+epstop               0.0000296795; // [m2/s3]
+
+// These parameters are not used by the code, but were used to calculate the above.
+//utau               0.2897944099 [m/s]
+//Iref               5.40 [%]
+

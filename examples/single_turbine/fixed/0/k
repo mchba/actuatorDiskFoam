@@ -29,21 +29,28 @@ boundaryField
 
     inlet
     {
-		type			atmBoundaryLayerInletK;
-		#include 		"../setup"
+	type		atmBoundaryLayerInletK;
+	flowDir         $flowDir;
+        zDir            $zDir;
+        Uref            $Uref;
+        Zref            $Zref;
+        z0              $z0;
+        d               $d;
+        kappa           $kap;
+        Cmu             $Cmu;
     }
 
     ground
     {
         type            kqRWallFunction;
         value           $turbulentKE;
-//		Cmu				0.09;
     }
-	top
-	{
-		type 		fixedValue;
-		value	 uniform $turbulentKE;
-	}
+
+    top
+    {
+	type 		fixedValue;
+	value	        uniform $turbulentKE;
+    }
 
     #include "sidePatches"
 }

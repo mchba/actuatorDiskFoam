@@ -12,7 +12,7 @@
 
 sides
 {
-    type zeroGradient;
+    type            zeroGradient;
 }
 
 "proc.*"

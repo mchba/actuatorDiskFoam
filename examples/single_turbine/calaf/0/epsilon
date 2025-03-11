@@ -30,25 +30,32 @@ boundaryField
 
     inlet
     {
-        type atmBoundaryLayerInletEpsilon;
-		#include "../setup"
+        type            atmBoundaryLayerInletEpsilon;
+	flowDir         $flowDir;
+        zDir            $zDir;
+        Uref            $Uref;
+        Zref            $Zref;
+        z0              $z0;
+        d               $d;
+        kappa           $kap;
+        Cmu             $Cmu;
     }
 	
-	top
-	{
-		type 		fixedValue;
-		value	  uniform $epstop;
-	}
+    top
+    {
+	type 	        fixedValue;
+	value	        uniform $epstop;
+    }
 
-	ground
-	{
-		type			epsilonWallFunction;
-		value			$internalField;
-		Cmu		        $Cmu;
-		kappa			$kap;
-	}
+    ground
+    {
+	type	        epsilonWallFunction;
+	value	        $internalField;
+	Cmu             $Cmu;
+	kappa	        $kap;
+    }
 
-     #include "sidePatches"
+    #include "sidePatches"
 
 }
 

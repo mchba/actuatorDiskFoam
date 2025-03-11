@@ -25,24 +25,32 @@ boundaryField
 {
     outlet
     {
-		type 			zeroGradient;
+	type 		zeroGradient;
     }
 
     inlet
     {
         type            atmBoundaryLayerInletVelocity;
-		#include "../setup"
+	flowDir         $flowDir;
+        zDir            $zDir;
+        Uref            $Uref;
+        Zref            $Zref;
+        z0              $z0;
+        d               $d;
+        kappa           $kap;
+        Cmu             $Cmu;
     }
+
     ground
     {
         type            noSlip;
     }
-	top
-	{
-		type 				fixedValue;
-		value	   uniform ($Utop 0 0);
-		
-	}
+
+    top
+    {
+	type 		fixedValue;
+	value	        uniform ($Utop 0 0);	
+    }
 	
     #include "sidePatches"
 }

@@ -1,0 +1,23 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2206                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+// These BCs are shared among all variables, so this file can then
+// just be loaded by each variable.
+
+
+sides
+{
+    type            zeroGradient;
+}
+
+"proc.*"
+{
+    type            processor;
+}
+
+// ************************************************************************* //

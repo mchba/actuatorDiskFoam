@@ -7,7 +7,7 @@ Flow assumptions:
 - Single-phase flow
 - Freestream flow is parallel with rotor axis, i.e. no turbine yaw or tilt
 
-These are typical assumptions for wind farm flows. The AD model can in theory be used for both RANS and LES, but has only been tested for RANS.
+These are typical assumptions for wind farm flows. The AD model can in theory be used for both RANS and LES, but has only been tested for RANS. More details can be found in [(Baungaard, Nishino and van der Laan, 2025)](https://wes.copernicus.org/preprints/wes-2025-50/).
 
 
 ## AD variants in actuatorDiskFoam

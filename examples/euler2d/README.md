@@ -1,6 +1,6 @@
 # euler2d
 
-The AD model can also be used in 2D. More info in (Baungaard, Nishino & van der Laan, 2025).
+The AD model can also be used in 2D. More info in  [(Baungaard, Nishino and van der Laan, 2025)](https://wes.copernicus.org/preprints/wes-2025-50/).
 
 There are two cases in this folder, "fixed" and "calaf" (the two AD variants). Each case only takes around 5 seconds to run on my laptop.
 
@@ -26,7 +26,7 @@ To run a case, go to one of folders and `./Allrun`. The flow can be visualized w
 
 ## Verification with analytical model
 
-An analytical solution exists for the 2D Euler equations with a single AD, if $C_T \ll 1$, which was derived by Madsen (1988). A thrust cofficient of $C_T = 0.01$ is used in this case. See more details in Appendix B of Baungaard, Nishino & van der Laan (2025).
+An analytical solution exists for the 2D Euler equations with a single AD, if $C_T \ll 1$, which was derived by [Madsen (1988)](https://www.researchgate.net/publication/326032585). A thrust cofficient of $C_T = 0.01$ is used in this case. See more details in Appendix B of [(Baungaard, Nishino and van der Laan, 2025)](https://wes.copernicus.org/preprints/wes-2025-50/).
 
 
 ![](madsen_ad.png)

@@ -28,7 +28,7 @@ SnappyHexMesh is used to refine the coarse grid in a boxed region around the tur
 
 ## Verification with analytical model
 
-An analytical solution exists for the 3D Euler equations with a single AD, if $C_T \ll 1$, which was derived by Koning (1935), see also Réthoré & Sørensen (2012). A thrust cofficient of $C_T = 0.01$ is used in this case.
+An analytical solution exists for the 3D Euler equations with a single AD, if $C_T \ll 1$, which was derived by Koning (1935), see also [Réthoré & Sørensen (2012)](https://doi.org/10.1002/we.525). A thrust cofficient of $C_T = 0.01$ is used in this case.
 
 Approximate runtimes on my laptop:
 - Coarse: 6 s (on 4 cores)

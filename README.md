@@ -103,6 +103,17 @@ To be able to use this AD, it must first be compiled and linked to your OpenFOAM
 
 If you look at the [examples](https://github.com/mchba/actuatorDiskFoam/tree/main/examples), you will find that they all have a reference to the `lib_actuatorDiskFoam.so`-file in their `system/controlDict`-file.
 
+### Compiling on Mac
+
+*Compilation has been tested on a Apple M4 pro CPU*.
+
+The same instructions are followed as above. If it fails with a "Stop.kFoam.C"-warning, then
+
+1. Open `Make/darwin64ClangDPInt32Opt/sourceFiles`, which should still have been produced by `wmake`, and remove the suffix `^M` from the second line in the file.
+2. Re-compile with `wmake`.
+
+For Mac, the compiled code will be called `lib_actuatorDiskFoam.dylib`. It is thus important to change `.so` to `.dylib` in the controlDicts of the provided [examples](https://github.com/mchba/actuatorDiskFoam/tree/main/examples).
+
 ## Examples
 
 Examples are provided in the [examples folder](https://github.com/mchba/actuatorDiskFoam/tree/main/examples).

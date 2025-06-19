@@ -25,15 +25,24 @@ At the inlet, the following values are set:
 - TKE: $k = 6.0~\textrm{m}^2~\textrm{s}^{-2}$.
 - Dissipation: $\varepsilon = 0.243~\textrm{m}^2~\textrm{s}^{-3}$.
 
-The turbulence will decay throughout the domain, because there is no shear and therefore to turbulence production. 
+The turbulence will decay throughout the domain, because there is no shear and therefore to turbulence production. This can be prevented by adding source terms to the turbulence equations.
 
 ## Results
 
-![](U_contour.png)
+### Decaying turbulence
+![](U_contour_decay.png)
 
-![](TKE_contour.png)
+![](TKE_contour_decay.png)
 
-![](TI_contour.png)
+![](TI_contour_decay.png)
+
+### With turbulence source terms
+
+![](U_contour_nondecay.png)
+
+![](TKE_contour_nondecay.png)
+
+![](TI_contour_nondecay.png)
 
 ## Comparison with reference data
 
@@ -42,7 +51,9 @@ We here compare with data from [Fei et al. (2025)](https://iopscience.iop.org/ar
 ![](centerline_U.png)
 ![](spanwise10D_U.png)
 
+![](centerline_TKE.png)
 
+![](centerline_nut.png)
 
 
 

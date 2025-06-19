@@ -2,15 +2,16 @@
 
 A single AD case with uniform inflow. The case is similar to the 20\% TI case from [Fei et al. (2025)](https://iopscience.iop.org/article/10.1088/1742-6596/3016/1/012033).
 
-Takes around 25 seconds to simulate on my laptop (Apple M4 Pro). 
+Takes around 55 seconds to simulate on my laptop (Apple M4 Pro). 
 
 ## Grid
 
 - Rotor diameter: $D = 40$ m.
 - Domain size: $L_x/D = L_y/D = L_z/D = 27.5$.
 - Background resolution: $\frac{D}{\Delta x} = \frac{D}{\Delta y} = \frac{D}{\Delta z} = 2$.
-- Resolution in refined region: $\frac{D}{\Delta x} = \frac{D}{\Delta y} = \frac{D}{\Delta z} = 8$
-- Total number of cells: 296k.
+- Resolution in first refined region: $\frac{D}{\Delta x} = \frac{D}{\Delta y} = \frac{D}{\Delta z} = 8$
+- Resolution in second refined region: $\frac{D}{\Delta x} = \frac{D}{\Delta y} = \frac{D}{\Delta z} = 16$
+- Total number of cells: 550k.
 
 ![](grid.png)
 
@@ -41,7 +42,7 @@ We here compare with data from [Fei et al. (2025)](https://iopscience.iop.org/ar
 ![](centerline_U.png)
 ![](spanwise10D_U.png)
 
-There is some disagreement, which are likely because of the resolution used.
+
 
 
 

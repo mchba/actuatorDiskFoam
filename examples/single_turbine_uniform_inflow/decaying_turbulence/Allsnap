@@ -5,5 +5,16 @@
 
 rm constant/polyMesh -r
 blockMesh                
-snappyHexMesh -overwrite 
+
+# First refinement
+cp system/snappyHexMeshDict1 system/snappyHexMeshDict
+snappyHexMesh -overwrite
+rm system/snappyHexMeshDict
+
+# Second refinement near AD
+cp system/snappyHexMeshDict2 system/snappyHexMeshDict
+snappyHexMesh -overwrite
+rm system/snappyHexMeshDict
+
+
 touch test.foam

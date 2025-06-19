@@ -21,7 +21,6 @@ plt.close('all')
 #######################################################################
 D = 40.0
 Uref = 10.0
-zh = 70.0
 
 #######################################################################
 ################## REFERENCE DATA ###################
@@ -48,11 +47,12 @@ def extract_number_of_iterations(filename):
 
 
 # Decaying turbulence inflow
-itc = extract_number_of_iterations('%s/log.simpleFoam'%('decaying_turbulence'))
-lc = np.genfromtxt('%s/postProcessing/lines/%d/xlineCenter_epsilon_k_nut_p_U.xy'%('decaying_turbulence',itc))
-sc = np.genfromtxt('%s/postProcessing/lines/%d/ylineSpanwise10D_epsilon_k_nut_p_U.xy'%('decaying_turbulence',itc))
-uc = np.genfromtxt('%s/postProcessing/surfaces/%d/U_zNormal.raw'%('decaying_turbulence',itc))
-kc = np.genfromtxt('%s/postProcessing/surfaces/%d/k_zNormal.raw'%('decaying_turbulence',itc))
+case = 'decaying_turbulence'
+itc = extract_number_of_iterations('%s/log.simpleFoam'%(case))
+lc = np.genfromtxt('%s/postProcessing/lines/%d/xlineCenter_epsilon_k_nut_p_U.xy'%(case,itc))
+sc = np.genfromtxt('%s/postProcessing/lines/%d/ylineSpanwise10D_epsilon_k_nut_p_U.xy'%(case,itc))
+uc = np.genfromtxt('%s/postProcessing/surfaces/%d/U_zNormal.raw'%(case,itc))
+kc = np.genfromtxt('%s/postProcessing/surfaces/%d/k_zNormal.raw'%(case,itc))
 
 
 
@@ -103,15 +103,15 @@ def make_contour(X,Y,VAR,lvls,varname):
     return fig
 
 # U
-fig = make_contour(uc[:,0]/D,uc[:,1]/Uref,uc[:,3]/Uref,np.arange(0.65, 1.1, 0.05),r'$\dfrac{U}{U_\infty}$')
+fig = make_contour(uc[:,0]/D,uc[:,1]/D,uc[:,3]/Uref,np.arange(0.65, 1.1, 0.05),r'$\dfrac{U}{U_\infty}$')
 fig.savefig('U_contour.png',bbox_inches='tight',dpi=300)
 
 # TKE
-fig = make_contour(kc[:,0]/D,kc[:,1]/Uref,kc[:,3],np.arange(0.0, 6.0, 0.2),r'$k$ [m2/s2]')
+fig = make_contour(kc[:,0]/D,kc[:,1]/D,kc[:,3],np.arange(0.0, 6.0, 0.2),r'$k$ [m2/s2]')
 fig.savefig('TKE_contour.png',bbox_inches='tight',dpi=300)
 
 # TI
-fig = make_contour(kc[:,0]/D,kc[:,1]/Uref,np.sqrt(2/3*kc[:,3])/uc[:,3]*100,np.arange(0.0, 26.0, 1.0),r'$I$ [%]')
+fig = make_contour(kc[:,0]/D,kc[:,1]/D,np.sqrt(2/3*kc[:,3])/uc[:,3]*100,np.arange(0.0, 26.0, 1.0),r'$I$ [%]')
 fig.savefig('TI_contour.png',bbox_inches='tight',dpi=300)
 
 

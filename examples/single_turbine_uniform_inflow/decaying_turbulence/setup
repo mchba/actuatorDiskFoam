@@ -28,21 +28,31 @@ ny                  $Nc;                       // Number of cells in y-direction
 nz                  $Nc;                       // Number of cells in z-direction.
 dxB                  #eval "$LD/$Nc";            // Cell width of background grid.
 
-// Refined grid near AD
+// Frist refinement
 x1   #eval "-5*$D";   
 x2 	 #eval "25*$D";
-y1   #eval "-1.5*$D";
-y2 	 #eval "1.5*$D";
-z1   #eval "-1.5*$D";
-z2 	 #eval "1.5*$D";
+y1   #eval "-2.5*$D";
+y2 	 #eval "2.5*$D";
+z1   #eval "-2.5*$D";
+z2 	 #eval "2.5*$D";
 refineLevels 2;
-dx   #eval "$dxB/pow($refineLevels,2)";
+
+// Second refinement
+xx1   #eval "-1*$D";   
+xx2 	 #eval "1*$D";
+yy1   #eval "-1*$D";
+yy2 	 #eval "1*$D";
+zz1   #eval "-1*$D";
+zz2 	 #eval "1*$D";
+refineLevelss 3;
+
+dx   #eval "$dxB/pow(2,$refineLevelss)";
 
 // Turbulence model parameters
-kap   0.38;
-Cmu   0.087;
+kap   0.4;
+Cmu   0.09;
 Ceps1 1.44;
-Ceps2 1.82;
+Ceps2 1.92;
 sige  1.30; // This should in princple be adjusted according to the aboves.
 
 // Initial conditions (the 5% case from Fei et al., 2025)

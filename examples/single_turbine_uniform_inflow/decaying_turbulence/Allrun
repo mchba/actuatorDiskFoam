@@ -9,8 +9,17 @@ runApplication blockMesh
 # Splitting domain:
 runApplication decomposePar
 
-# Refine grid in AD region
+# Refinement1
+cp system/snappyHexMeshDict1 system/snappyHexMeshDict
 runParallel snappyHexMesh -overwrite
+rm system/snappyHexMeshDict
+mv log.snappyHexMesh log.snappyHexMesh1
+
+# Refinement2
+cp system/snappyHexMeshDict2 system/snappyHexMeshDict
+runParallel snappyHexMesh -overwrite
+rm system/snappyHexMeshDict
+mv log.snappyHexMesh log.snappyHexMesh2
 
 # Solving:
 runParallel topoSet

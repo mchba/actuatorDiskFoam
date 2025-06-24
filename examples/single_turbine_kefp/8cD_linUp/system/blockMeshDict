@@ -1,0 +1,109 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1806                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version         2.0;
+    format          ascii;
+    class           dictionary;
+    object          blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+#include        "../setup"
+
+convertToMeters 1;
+
+vertices
+(
+    ($xMin $yMin $zMin)
+    ($xMax $yMin $zMin)
+    ($xMax $yMax $zMin)
+    ($xMin $yMax $zMin)
+    ($xMin $yMin $zMax)
+    ($xMax $yMin $zMax)
+    ($xMax $yMax $zMax)
+    ($xMin $yMax $zMax)
+);
+
+blocks
+(
+    hex (0 1 2 3 4 5 6 7) ($nx $ny $nz) 
+    simpleGrading 
+    (
+    // X-dir
+    (
+        (0.1666666 0.1 0.5) // Geo %, Cells %, Stretching
+        (0.6666666 0.8  1)
+        (0.1666666 0.1 2)
+    )
+    // Y-dir
+    (
+        (0.375 0.25 0.2) // Geo %, Cells %, Stretching
+        (0.25  0.5  1)
+        (0.375 0.25 5)
+    )
+    // Z-dir
+    5)
+);
+
+
+edges
+(
+);
+
+boundary
+(
+    inlet
+    {
+        type patch;
+        faces
+        (
+			(0 4 7 3)
+        );
+    }
+    outlet
+    {
+        type patch;
+        faces
+        (
+            (2 6 5 1)
+        );
+    }	
+    ground
+    {
+        type wall;
+        faces
+        (
+            (0 3 2 1)
+        );
+    }
+	top
+    {
+        type patch;
+        faces
+        (
+			(4 5 6 7)
+        );
+    }
+    sides
+    {
+        type patch;
+        faces
+        (
+            (0 1 5 4)
+            (3 7 6 2)
+        );
+    }
+);
+
+mergePatchPairs
+(
+);
+
+
+// ************************************************************************* //

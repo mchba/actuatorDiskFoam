@@ -1,0 +1,31 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                |                                                 |
+| \      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \    /   O peration     | Version:  v2206                                 |
+|   \  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version         2.0;
+    format          ascii;
+    class           dictionary;
+    object          fvOptions;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// Disk 1
+disk1
+{
+    type            actuatorDiskFoam;
+    variant         fixed;
+    selectionMode   cellSet;
+    cellSet         actuationDisk1;
+    diskDir         (1 0 0);
+    Ct              0.7500;
+    diskArea        5026.5;
+    // For the fixed variant, you need to specify a reference velocity,
+    // which should be equal to the hub height value of the inflow velocity.
+    Uref_fixed       8.0;
+}
+

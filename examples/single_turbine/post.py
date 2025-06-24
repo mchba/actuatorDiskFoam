@@ -48,10 +48,12 @@ def extract_number_of_iterations(filename):
 # Calaf AD case
 itc = extract_number_of_iterations('%s/log.simpleFoam'%('calaf'))
 pc = np.genfromtxt('%s/postProcessing/surfaces/%d/U_zNormal.raw'%('calaf',itc))
+kc = np.genfromtxt('%s/postProcessing/surfaces/%d/k_zNormal.raw'%('calaf',itc))
 
 # Fixed AD case
 itf = extract_number_of_iterations('%s/log.simpleFoam'%('fixed'))
 pf = np.genfromtxt('%s/postProcessing/surfaces/%d/U_zNormal.raw'%('fixed',itf))
+kf = np.genfromtxt('%s/postProcessing/surfaces/%d/k_zNormal.raw'%('fixed',itf))
 
 
 
@@ -88,6 +90,40 @@ ax[0].set_yticks([-1,0,1])
 ax[2].set_xlabel('$x/D$')
 ax[2].set_ylabel('$\dfrac{y}{D}$',rotation=0,va='center',ha='right')
 fig.savefig('U_contour.png',bbox_inches='tight',dpi=300)
+
+#######################################################################
+########## K CONTOUR ############################################################
+#######################################################################
+
+reduce = 1.3
+fig, ax = plt.subplots(3, 1, sharex=True, sharey=True, figsize=(5*reduce, 3*reduce))
+ax = ax.flatten()
+plt.subplots_adjust(hspace=0.3)
+
+lvls = np.linspace(0.0, 0.25, 21)
+p = ax[0].contourf(X/D, Y/D, refdata['tke'].T/Uref, lvls, cmap=cm.jet)
+p = ax[1].tricontourf(kc[:,0]/D, kc[:,1]/D, kc[:,3]/Uref, lvls, cmap=cm.jet)
+p = ax[2].tricontourf(kf[:,0]/D, kf[:,1]/D, kf[:,3]/Uref, lvls, cmap=cm.jet)
+
+
+for i in range(3):
+    ax[i].text(0.03, 0.9, labels[i], transform=ax[i].transAxes, fontsize=12,
+               verticalalignment='top', horizontalalignment='left', 
+               bbox=dict(boxstyle='round', facecolor='white', alpha=0.75))
+    ax[i].axis('scaled')
+    
+fig.subplots_adjust(right=0.9)
+cbar = fig.add_axes([0.85, 0.1, 0.03, 0.8])
+comcolRANS = plt.colorbar(p, cax=cbar)
+cbar.set_ylabel(r'$k$ [m2/s2]',rotation=0,va='center',ha='left')
+ax[0].set_ylabel('$\dfrac{y}{D}$',rotation=0,va='center',ha='right')
+ax[1].set_ylabel('$\dfrac{y}{D}$',rotation=0,va='center',ha='right')
+ax[0].set_xlim(-2,10)
+ax[0].set_ylim(-1.5,1.5)
+ax[0].set_yticks([-1,0,1])
+ax[2].set_xlabel('$x/D$')
+ax[2].set_ylabel('$\dfrac{y}{D}$',rotation=0,va='center',ha='right')
+#fig.savefig('k_contour.png',bbox_inches='tight',dpi=300)
 
 
 

@@ -1,0 +1,43 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1812                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+#include "../setup"
+
+type sets;
+libs    ("libsampling.so");
+
+interpolationScheme      cellPoint;
+
+setFormat   raw;
+
+sets
+(
+xlineCenter
+{
+type            uniform;
+axis            x;
+start           ($xMin    0.00001 $zh);
+end             ($xMax     0.00001 $zh);
+nPoints         512;
+}
+
+ylineSpanwise10D
+{
+type            uniform;
+axis            y;
+start           (#eval "5*$D+0.00001" $yMin $zh);
+end             (#eval "5*$D+0.00001" $yMax $zh);
+nPoints         512;
+}
+
+);
+
+
+fields                  (U p k epsilon nut);
+
+// ************************************************************************* //

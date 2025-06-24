@@ -2,6 +2,9 @@
 *.py[cod]
 __pycache__/
 
+# Mac file
+.DS_Store
+
 # IDE settings
 .vscode/
 

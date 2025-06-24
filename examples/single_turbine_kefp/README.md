@@ -4,6 +4,19 @@ A single AD case with atmospheric surface layer (aka. log-law) inflow using the 
 
 The 4cD and 8cD simulations took around 2s and 25s, respectively, to simulate on my laptop (Apple M4 pro).
 
+## The $k$-$`\varepsilon`$-$`f_p`$ model
+
+$$
+\nu_t = C_\mu f_p \frac{k^2}{\varepsilon}
+$$
+
+$$
+f_p = \frac{2 f_0}{1 + \sqrt{1 + 4 f_0 (f_0 - 1) ({\sigma/\tilde{\sigma}})^2}}
+$$
+
+where $f_0 = \frac{C_r}{C_r - 1}$ and $\tilde{\sigma} = 1/\sqrt{C_\mu}$ for neutral flow.
+
+
 ## Compiling the kEpsilonFp code
 
 *G. P. Navarro Dias implemented a [version](https://www.researchgate.net/publication/340929542_code_available_k-epsilon-fp_turbulence_model_for_OpenFOAM_41_and_OpenFOAM_v2012_From_van_dar_Laan_et_al_2015) of the $`k`$-$`\varepsilon`$-$`f_p`$ model. The current version is similar, but with a few updates*. 

@@ -1,6 +1,6 @@
 # single_turbine_uniform_inflow
 
-A single AD case with uniform inflow. The case is similar to the 20\% TI case from [Fei et al. (2025)](https://iopscience.iop.org/article/10.1088/1742-6596/3016/1/012033).
+A single AD case with uniform inflow. The case is similar to the 20\% TI case from [Fei et al. (2025)](https://iopscience.iop.org/article/10.1088/1742-6596/3016/1/012033). In addition, cases with turbulence source terms (to prevent turbulence decay) and with the $`f_p`$ limiter are included.
 
 Takes around 55 seconds to simulate on my laptop (Apple M4 Pro). 
 
@@ -27,26 +27,28 @@ At the inlet, the following values are set:
 
 The turbulence will decay throughout the domain, because there is no shear and therefore to turbulence production. This can be prevented by adding source terms to the turbulence equations.
 
-## Results
+For uniform inflow $f_p = f_0$ in the undisturbed flow, hence
 
-### Decaying turbulence
-![](U_contour_decay.png)
+$$
+\nu_t = C_\mu f_0 \frac{k^2}{\varepsilon}
+$$
 
-![](TKE_contour_decay.png)
+in the $`k`$-$`\varepsilon`$-$`f_p`$ model. This is unlike in log-law inflow, where $f_p = 1$ in the undisturbed flow. To compensate for this, we multiply the inflow $`\varepsilon`$ with $f_0$.
 
-![](TI_contour_decay.png)
+## Contours
 
-### With turbulence source terms
+![](U_contours.png)
 
-![](U_contour_nondecay.png)
+![](TKE_contours.png)
 
-![](TKE_contour_nondecay.png)
+![](TI_contours.png)
 
-![](TI_contour_nondecay.png)
+- Turbulence decays throughout the domain, because the TKE production is zero for uniform inflow. This can be prevented by adding source terms to the turbulence equations.
+- The $`f_p`$ limiter gives a slower wake recovery, which is more alike typical LES results.
 
 ## Comparison with reference data
 
-We here compare with data from [Fei et al. (2025)](https://iopscience.iop.org/article/10.1088/1742-6596/3016/1/012033).
+We here compare with data from [Fei et al. (2025)](https://iopscience.iop.org/article/10.1088/1742-6596/3016/1/012033), who used a plain $`k`$-$`\varepsilon`$ model.
 
 ![](centerline_U.png)
 ![](spanwise10D_U.png)

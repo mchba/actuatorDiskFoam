@@ -97,7 +97,7 @@ To be able to use this AD, it must first be compiled and linked to your OpenFOAM
     If you don't have this directory, create it with `mkdir -p $WM_PROJECT_USER_DIR/{run,applications,src}`. The user directory is used to add custom code, see more info [here](https://www.tfd.chalmers.se/~hani/kurser/OS_CFD_2022/lectureNotes/01_initialPreparations.pdf).
 
 
-2. `cp src $WM_PROJECT_USER_DIR/src/actuatorDiskFoam -r`.
+2. `cp -r src/ad $WM_PROJECT_USER_DIR/src/actuatorDiskFoam`.
 3. `cd $WM_PROJECT_USER_DIR/src/actuatorDiskFoam`
 4. `wmake`. This compiles the AD code and creates a library called `lib_actuatorDiskFoam.so` in the `$WM_PROJECT_USER_DIR/platforms` folder.
 

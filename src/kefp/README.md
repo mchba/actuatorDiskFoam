@@ -24,7 +24,7 @@ The $k$-$`\varepsilon`$-$`f_p`$ model is not included in the default OpenFoam in
 
 0. If you don't already have it, create a user directory, [see here](https://github.com/mchba/actuatorDiskFoam/tree/main?tab=readme-ov-file#actuator-disk-ad-compilation).
 
-1. Create the below folder tree in your `$WM_PROJECT_USER_DIR/src`-folder. You can just copy it from the `kefp_src`-folder.
+1. Create the below folder tree in your `$WM_PROJECT_USER_DIR/src`-folder. You can just copy the `TurbulenceModels`-folder.
 
 
 ```bash 

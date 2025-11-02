@@ -11,7 +11,7 @@ Study of the grid resolution.
 - Thrust coefficient based on disk velocity: $C_T' = \frac{4}{3}$ (corresponds to $C_T = 0.75$ via 1D mom theory)
 - Disk center location: At (0,0,0)
 - Domain size: $L_x/D = L_y/D = L_z/D = 16$.
-- Blockage ratio: $\pi R^2/(Ly L_y) = 0.3$ %.
+- Blockage ratio: $\pi R^2/(L_y L_z) = 0.3$ %.
 - Cell size in background grid: $\frac{D}{\Delta x} = 4$.
 - Refinement region: $x/D = [-3,4]$, $y/D = [-1,1]$, $z/D = [-1,1]$.
 - Cell size in refinement region: $\frac{D}{\Delta x} = \{4,8,16,32,64\}$

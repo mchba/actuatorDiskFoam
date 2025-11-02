@@ -1,7 +1,8 @@
-# euler3d
+# Grid study
 
 Single AD with 3D Euler equations. Uniform and laminar inflow.
 
+Study of the grid resolution.
 
 ## Grid
 

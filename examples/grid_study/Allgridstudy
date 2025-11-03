@@ -12,7 +12,7 @@
 
 
 # List of grid levels to be run
-GRID_LEVELS="4"
+GRID_LEVELS="2"
 
 # Loop over each grid level
 for LEVEL in $GRID_LEVELS; do

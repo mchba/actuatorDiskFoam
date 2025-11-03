@@ -4,7 +4,7 @@ Single AD with 3D Euler equations. Uniform and laminar inflow.
 
 Study of the grid resolution.
 
-## Grid
+## Parameters
 
 
 - Rotor diameter: $D = 80$ m.
@@ -17,6 +17,13 @@ Study of the grid resolution.
 - Cell size in refinement region: $\frac{D}{\Delta x} = \{4,8,16,32,64\}$
 
 Number of cells in the finest simulation is 7.8M and that simulation takes 263s to simulate on 8 cores.
+
+## Grid
+
+The simulation with $\frac{D}{\Delta x} = 16$ resolution in the refined region.
+
+![](grid.png)
+
 
 
 ## AD

@@ -41,6 +41,6 @@ runApplication foamLog log.simpleFoam
 runApplication touch test.foam
 
 # Make VTK of the AD
-foamToVTK -cellSet actuationDisk1CellSet
+runApplication foamToVTK -cellSet actuationDisk1CellSet
 
 #------------------------------------------------------------------------------

@@ -9,7 +9,7 @@ B = \frac{\pi R^2}{L_y L_z}
 $$
 
 
-## Grid
+## Parameters
 
 
 - Rotor diameter: $D = 80$ m.

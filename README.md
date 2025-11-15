@@ -42,6 +42,8 @@ Inputs:
 - Position of AD.
 
 
+
+
 ### Calaf
 
 The thrust and power of the AD
@@ -73,6 +75,18 @@ Inputs:
 - The disk area, $A = \pi \left(\frac{D}{2} \right)^2$.
 - Position of AD.
 
+## AD thickness
+
+In `actuatorDiskFoam`, one selects the AD cells in a pre-processing step (i.e. in `system/topoSetDict`) with a cylinder volume. Hence, the AD has a finite thickness equal to the cylinder length.
+
+![](examples/thickness_study/cD32/ad_thickness.png)
+
+
+The thrust force is distributed equally to each cell in the cylinder volume. For a thick AD, the force is thus smeared more in the x-direction. It turns out that it is not the actual thickness ($\Delta x_{\rm AD}$), but rather the number of cells per AD thickness ($N_t = \Delta x_{\rm AD}/\Delta x$), which is the important smearing parameter. $N_t$ is analogue to the well-known smearing $\varepsilon/\Delta x$ parameter in Gaussian smeared AD/ALs.
+
+**Recommendation**: Use $N_t = 4$. This was [found](https://github.com/mchba/actuatorDiskFoam/tree/main/examples/thickness_study) to produce results closest to 1D momentum theory.
+
+*Previously, I had assumed $`N_t = 2`$ was the most sound choice, but this can lead to significant underprediction of the thrust and power (although not as severe as $`N_t = 1`$).*
 
 ## OpenFOAM
 

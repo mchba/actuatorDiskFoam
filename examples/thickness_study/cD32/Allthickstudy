@@ -1,0 +1,35 @@
+#!/bin/sh
+
+################################################
+## This is a study of the AD thicness.
+##
+## THICKNESS = 2: dx_ad = 2*cellsize (default)
+## THICKNESS = 4: dx_ad = 4*cellsize
+##
+## NOTE: For THICKNESS = 1, you have to manually go into
+## topoSetDict and change dth2 to dth, else it will select
+## 0 cells...
+################################################
+
+
+# List of grid levels to be run
+THICKNESS="2 4"
+
+# Loop over each thickness level
+for THICK in $THICKNESS; do
+    echo "Running thickness level: $THICK"
+    # Copy the clean folder to a new folder for this thickness level
+    cp -r clean case_thick${THICK}
+    # Change to the new case directory
+    cd case_thick${THICK}
+    # Change the Dth value in setup file
+    sed -i "" "s/^Dth.*/Dth #eval \"$THICK*\$dxref\";                        \/\/ Thickness of the AD (m)./" setup
+    # Now echo that we will run and run the case (Allrun script)
+    echo "Running simulation for thickness level $THICK..."
+    ./Allrun
+    cd ..
+done
+
+
+
+#------------------------------------------------------------------------------

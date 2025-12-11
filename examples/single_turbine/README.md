@@ -53,15 +53,17 @@ With an increased grid resolution and a larger domain, one will get an excellent
 ## Crucial change to naming
 Const -is for the 
 Calaf -  Ct based on the disk velocity
-Gauss - the same as Const but the force is smeared over the topolgy and requires the setting of a disk radius and diameter for the smearing which is super Gaussian and based on the work by Jané‐Ippel et al. - 2024
+Gauss - the same as Const but the force is smeared over the topolgy with A super Gaussian kernel
+## Using Gauss
+This smears the force in the axial and radial direction. This is to avoid any numerically wiggles BUT is not the same as using a raidally variable forcing (the force "still can be viewed" as constnat across the grid). It Requires the setting of a disk radius and diameter for the smearing which is super Gaussian and based on the work by Jané‐Ippel et al. - 2024
 (https://onlinelibrary.wiley.com/doi/10.1002/we.2946)
 
 
 <img width="316" height="46" alt="image" src="https://github.com/user-attachments/assets/a97640f2-4419-48c7-b745-ab7ee152a0db" />
 
 
-is the kernel and they calibrated the alpha for the kernel already to 2 and 8 respectivly based on experimental data of Chamorro et al. , see also King et al. The user input is therefore just disk thickness and radius.
-
+For the above kernel the original work calibrated the alphas already to 2 and 8 respectivly based on experimental data of Chamorro et al. , see also King et al. The user input is therefore just disk thickness and radius.
+We also print out the actual total thrust applied and the throretical thrust so you can be condfident that this is still conserved.
 
 Chamorro - https://link.springer.com/article/10.1007/s10546-010-9512-1
 

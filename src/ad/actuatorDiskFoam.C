@@ -53,7 +53,7 @@ const Foam::Enum
 >
 Foam::fv::actuatorDiskFoam::forceMethodTypeNames
 ({
-    { forceMethodType::CALAF, "calaf" },
+    { forceMethodType::CALAF, "Calaf" },
     { forceMethodType::GAUSS, "Gauss" },
     { forceMethodType::CONST, "Const" },
 });
@@ -123,7 +123,7 @@ Foam::fv::actuatorDiskFoam::actuatorDiskFoam(
       writeFile(mesh, name, modelType, coeffs_),
       forceMethod_(
           forceMethodTypeNames.getOrDefault(
-              // Retrieve "variant" from the coeffs dictionary and if not found defaults to calaf.
+              // Retrieve "variant" from the coeffs dictionary and if not found defaults to Calaf.
               "variant",
               coeffs_,
               forceMethodType::CALAF)),

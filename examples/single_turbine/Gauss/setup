@@ -1,0 +1,66 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  v2206
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+
+// You can get the values calculated by #eval by executing the following
+// in the terminal:
+//     foamDictionary setup
+// No need to make backup of setup file before this command.
+
+
+// Domain size and number of cells.
+xMin                -1280;                    // Minimum x-extent of domain (m).
+yMin                -640;                     // Minimum y-extent of domain (m).
+zMin                0;                        // Minimum z-extent of domain (m).
+xMax                1280;                     // Maximum x-extent of domain (m).
+yMax                640;                      // Maximum y-extent of domain (m).
+zMax                640;                      // Maximum z-extent of domain (m).
+nx                  128;                      // Number of cells in x-direction.
+ny                  64;                       // Number of cells in y-direction.
+nz                  32;                       // Number of cells in z-direction.
+dx #eval "($xMax-$xMin)/$nx";                // dx (m)
+
+// Adjust (most) turbine settings in
+// - system/topoSetDict
+// - constant/fvOptions
+zh 70; // Turbine hub height (m).
+
+// Turbulence model parameters
+kap   0.38;
+Cmu   0.087;
+Ceps1 1.44;
+Ceps2 1.82;
+sige  1.30; // This should in princple be adjusted according to the aboves.
+
+// Atmospheric surface layer (aka. log-law) parameters
+Uh 8.0;    // Hub-height streamwise velocity (m/s)
+Ih 0.054;  // Hub-height turbulence intensity (-)
+
+// Calculated values 
+Kh      #eval "1.5 * pow($Uh * $Ih, 2)";
+utau    #eval "pow($Kh,0.5)*pow($Cmu,0.25)";
+z0val   #eval "$zh/(exp($kap*$Uh/$utau) - 1.0)";
+epsh    #eval "pow($utau,3)/($kap*($zh + $z0val))";
+epstop  #eval "pow($utau,3)/($kap*($zMax + $z0val))";
+Utop    #eval "$utau/$kap*log($zMax/$z0val + 1.0)";
+
+// Initial conditions
+flowVelocity         ($Uh 0 0);
+pressure             0;
+turbulentKE          $Kh;
+turbulentEpsilon     $epsh;
+
+//ABLconditions
+Uref                 $Uh;
+Zref                 $zh;
+zDir                 (0 0 1);
+flowDir              (1 0 0);
+z0                   uniform $z0val;
+d                    uniform 0.0;
+zGround              uniform 0.0;
+
+

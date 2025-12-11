@@ -376,12 +376,13 @@ void Foam::fv::actuatorDiskFoam::calcGaussMethod(
      }
     reduce(totalVnew, sumOp<scalar>());
     // Calculate momentum source term.
-    scalar totalThrust = 0.0;
+    vector totalThrust(Zero);
     for (const label celli : cells_)
     {
         Usource[celli] += ((cellsV[celli]*weight[celli])/ totalVnew * T) * diskDir_;
         totalThrust += Usource[celli];
     }
+    reduce(totalThrust, sumOp<vector>());
     // Write disk quantities to file.
     if (
         mesh_.time().timeOutputValue() >= writeFileStart_ && mesh_.time().timeOutputValue() <= writeFileEnd_)

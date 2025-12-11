@@ -55,8 +55,12 @@ Const -is for the
 Calaf -  Ct based on the disk velocity
 Gauss - the same as Const but the force is smeared over the topolgy and requires the setting of a disk radius and diameter for the smearing which is super Gaussian and based on the work by Jané‐Ippel et al. - 2024
 (https://onlinelibrary.wiley.com/doi/10.1002/we.2946)
+$$
 <img width="316" height="46" alt="image" src="https://github.com/user-attachments/assets/a97640f2-4419-48c7-b745-ab7ee152a0db" />
+$$
 is the kernel and they calibrated the alpha for the kernel already to 2 and 8 respectivly based on experimental data of Chamorro et al. , see also King et al. The user input is therefore just disk thickness and radius.
+$$
 Chamorro - https://link.springer.com/article/10.1007/s10546-010-9512-1
+$$
 King - https://wes.copernicus.org/articles/2/115/2017/
 

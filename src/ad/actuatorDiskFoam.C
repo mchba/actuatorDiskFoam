@@ -54,7 +54,8 @@ const Foam::Enum
 Foam::fv::actuatorDiskFoam::forceMethodTypeNames
 ({
     { forceMethodType::CALAF, "calaf" },
-    { forceMethodType::FIXED, "fixed" },
+    { forceMethodType::GAUSS, "Gauss" },
+    { forceMethodType::CONST, "Const" },
 });
 
 
@@ -77,18 +78,32 @@ void Foam::fv::actuatorDiskFoam::writeFileHeader(Ostream& os)
         writeFile::writeCommented(os, "T");
         writeFile::writeCommented(os, "P");
     }
-    else if (forceMethod_ == forceMethodType::FIXED)
+    else if (forceMethod_ == forceMethodType::GAUSS)
     {
         writeFile::writeHeader(os, "Fixed force AD");
         writeFile::writeCommented(os, "Time");
         writeFile::writeCommented(os, "Uref");
         writeFile::writeCommented(os, "Cp");
         writeFile::writeCommented(os, "Ct");
-        writeFile::writeCommented(os, "Udisk");
+        writeFile::writeCommented(os, "T");
+        writeFile::writeCommented(os, "P");
+        writeFile::writeCommented(os, "centrex");
+        writeFile::writeCommented(os, "centrey");
+        writeFile::writeCommented(os, "centrez");
+        writeFile::writeCommented(os, "Thickness");
+        writeFile::writeCommented(os, "Diameter");
+        writeFile::writeCommented(os, "totalThrust");
+    }
+    else if (forceMethod_ == forceMethodType::CONST)
+    {
+        writeFile::writeHeader(os, "Fixed force AD");
+        writeFile::writeCommented(os, "Time");
+        writeFile::writeCommented(os, "Uref");
+        writeFile::writeCommented(os, "Cp");
+        writeFile::writeCommented(os, "Ct");
         writeFile::writeCommented(os, "T");
         writeFile::writeCommented(os, "P");
     }
-
     os  << endl;
 }
 
@@ -206,12 +221,16 @@ void Foam::fv::actuatorDiskFoam::calc(
         break;
     }
 
-    case forceMethodType::FIXED:
+    case forceMethodType::GAUSS:
     {
-        calcFixedMethod(eqn);
+        calcGaussMethod(eqn);
         break;
     }
-
+    case forceMethodType::CONST:
+    {
+        calcConstMethod(eqn);
+        break;
+    }
     default:
         break;
     }
@@ -299,13 +318,88 @@ void Foam::fv::actuatorDiskFoam::calcCalafMethod(
     }
 }
 
-// The fixed-force AD.
-void Foam::fv::actuatorDiskFoam::calcFixedMethod(
+// The fixed-force with super Gaussian smearing AD.
+void Foam::fv::actuatorDiskFoam::calcGaussMethod(
     fvMatrix<vector> &eqn)
 {
-    // Velocity field.
-    const vectorField &U = eqn.psi();
 
+    // Source term field (to be calculated).
+    vectorField &Usource = eqn.source();
+    // Mesh.
+    const scalarField &cellsV = mesh_.V();
+
+
+    // Load the fixed velocity, which will be used to calculate T and P.
+    const scalar magUrefFixed = Uref_fixed_;
+    if (magUrefFixed <= VSMALL)
+    {
+        FatalErrorInFunction
+            << "Uref must be greater than zero." << nl
+            << ", Uref = " << magUrefFixed
+            << exit(FatalIOError);
+    }
+
+    // Load the thrust and power coefficients.
+    const scalar CtFixed = Ct_;
+    if (CtFixed <= VSMALL)
+    {
+        FatalErrorInFunction
+            << "Ct must be greater than zero." << nl
+            << ", Ct = " << CtFixed
+            << exit(FatalIOError);
+    }
+    const scalar CpFixed = Cp_fixed_;
+    if (CpFixed <= VSMALL)
+    {
+        FatalErrorInFunction
+            << "CpFixed must be greater than zero." << nl
+            << ", CpFixed = " << CpFixed
+            << exit(FatalIOError);
+    }
+
+    // Compute thrust and power
+    const scalar T = 0.5 * diskArea_ * pow(magUrefFixed,2) * CtFixed;
+    const scalar P = 0.5 * diskArea_ * pow(magUrefFixed,2) * CpFixed;
+   //create supergaussain field based on axial and radial distance
+     scalarField weight(mesh_.V().size(),scalar(0.0));
+    const vectorField &centre_point =  mesh_.C() ;
+     scalar radius = 0.0;
+    for (const label celli : cells_)
+    {
+      radius = Foam::sqrt(Foam::pow((centre_point[celli].y()-centrey),2)+Foam::pow((centre_point[celli].z()-centrez),2));
+  weight[celli] = Foam::exp(-Foam::pow(((centre_point[celli].x()-centrex)/(Thickness/2)),2)-Foam::pow(radius/(Diameter/2),8));
+   }
+    scalar totalVnew = 0.0;
+    for (const auto &celli : cells_)
+    {
+     totalVnew += cellsV[celli]*weight[celli];
+     }
+    reduce(totalVnew, sumOp<scalar>());
+    // Calculate momentum source term.
+    scalar totalThrust = 0.0;
+    for (const label celli : cells_)
+    {
+        Usource[celli] += ((cellsV[celli]*weight[celli])/ totalVnew * T) * diskDir_;
+        totalThrust += Usource[celli];
+    }
+    // Write disk quantities to file.
+    if (
+        mesh_.time().timeOutputValue() >= writeFileStart_ && mesh_.time().timeOutputValue() <= writeFileEnd_)
+    {
+        Ostream &os = file();
+        writeCurrentTime(os);
+
+        // Output values of the current timestep (should match variables defined in writeFileHeader)
+        os << magUrefFixed << tab << CpFixed << tab << CtFixed  << tab << tab << T << tab << P << tab << centrex << tab<< centrey << tab << centrez << tab<< Thickness << tab << Diameter << tab << totalThrust << endl;
+    }
+}
+// The fixed-force AD.
+void Foam::fv::actuatorDiskFoam::calcConstMethod(
+    fvMatrix<vector> &eqn)
+{
+
+    // Source term field (to be calculated).
+    vectorField &Usource = eqn.source();
     // Mesh.
     const scalarField &cellsV = mesh_.V();
 
@@ -342,12 +436,17 @@ void Foam::fv::actuatorDiskFoam::calcFixedMethod(
     const scalar T = 0.5 * diskArea_ * pow(magUrefFixed,2) * CtFixed;
     const scalar P = 0.5 * diskArea_ * pow(magUrefFixed,2) * CpFixed;
 
+    scalar totalVnew = 0.0;
+    for (const auto &celli : cells_)
+    {
+     totalVnew += cellsV[celli];
+     }
+    reduce(totalVnew, sumOp<scalar>());
     // Calculate momentum source term.
     for (const label celli : cells_)
     {
-        Usource[celli] += (cellsV[celli] / totalV * T) * diskDir_;
+        Usource[celli] += (cellsV[celli]/ totalVnew * T) * diskDir_;
     }
-
     // Write disk quantities to file.
     if (
         mesh_.time().timeOutputValue() >= writeFileStart_ && mesh_.time().timeOutputValue() <= writeFileEnd_)
@@ -356,7 +455,7 @@ void Foam::fv::actuatorDiskFoam::calcFixedMethod(
         writeCurrentTime(os);
 
         // Output values of the current timestep (should match variables defined in writeFileHeader)
-        os << magUrefFixed << tab << CpFixed << tab << CtFixed << tab << T << tab << P << endl;
+        os << magUrefFixed << tab << CpFixed << tab << CtFixed  << tab << tab << T << tab << P  << endl;
     }
 }
 

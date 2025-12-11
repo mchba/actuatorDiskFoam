@@ -305,36 +305,10 @@ void Foam::fv::actuatorDiskFoam::calcFixedMethod(
 {
     // Velocity field.
     const vectorField &U = eqn.psi();
-    // Source term field (to be calculated).
-    vectorField &Usource = eqn.source();
+
     // Mesh.
     const scalarField &cellsV = mesh_.V();
 
-    // Calculate disk-averaged quantities.
-    vector Udisk(Zero);
-    scalar totalV = 0.0;
-    for (const auto &celli : cells_)
-    {
-        Udisk += U[celli] * cellsV[celli];
-        totalV += cellsV[celli];
-    }
-    reduce(Udisk, sumOp<vector>());
-    reduce(totalV, sumOp<scalar>());
-    if (totalV < SMALL)
-    {
-        FatalErrorInFunction
-            << "No cell in the actuator disk."
-            << exit(FatalError);
-    }
-    Udisk /= totalV;
-    const scalar magUdisk = mag(Udisk);
-    if (mag(Udisk) < SMALL)
-    {
-        FatalErrorInFunction
-            << "Velocity spatial-averaged on actuator disk is zero." << nl
-            << "Please check if the initial U field is zero."
-            << exit(FatalError);
-    }
 
     // Load the fixed velocity, which will be used to calculate T and P.
     const scalar magUrefFixed = Uref_fixed_;
@@ -382,8 +356,7 @@ void Foam::fv::actuatorDiskFoam::calcFixedMethod(
         writeCurrentTime(os);
 
         // Output values of the current timestep (should match variables defined in writeFileHeader)
-        os << magUrefFixed << tab << CpFixed << tab << CtFixed << tab
-           << magUdisk << tab << tab << T << tab << P << endl;
+        os << magUrefFixed << tab << CpFixed << tab << CtFixed << tab << T << tab << P << endl;
     }
 }
 

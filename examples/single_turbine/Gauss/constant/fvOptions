@@ -28,11 +28,11 @@ disk1
     // which should be equal to the hub height value of the inflow velocity.
     Uref_fixed       8.0;
 // turbine position of centre to help with kernel calc
-    centrex          7600;
-    centrey          360;
+    centrex          0;
+    centrey          0;
     centrez          $zh;
 // dimensions of the turbine fed into kernel (ideally thickness should be 2-4 cells)
     Diameter         80;
-    Thickness        $dx; 
+    Thickness        #eval(4*$dx); 
 }
 

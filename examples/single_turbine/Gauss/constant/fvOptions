@@ -27,5 +27,12 @@ disk1
     // For the constant variant, you need to specify a reference velocity,
     // which should be equal to the hub height value of the inflow velocity.
     Uref_fixed       8.0;
+// turbine position of centre to help with kernel calc
+    centrex          7600;
+    centrey          360;
+    centrez          150;
+// dimensions of the turbine fed into kernel (ideally thickness should be 2-4 cells)
+    Diameter         240;
+    Thickness        30; 
 }
 

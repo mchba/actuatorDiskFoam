@@ -51,9 +51,12 @@ Reasons for disagreement:
 With an increased grid resolution and a larger domain, one will get an excellent agreement with the reference data, see Fig. 3a and 3b in [(Baungaard, Nishino and van der Laan, 2025)](https://wes.copernicus.org/preprints/wes-2025-50/).
 
 ## Crucial change to naming
-Const -is for the 
+Const -is for the
+
 Calaf -  Ct based on the disk velocity
+
 Gauss - the same as Const but the force is smeared over the topolgy with A super Gaussian kernel
+
 ## Using Gauss
 This smears the force in the axial and radial direction. This is to avoid any numerically wiggles BUT is not the same as using a raidally variable forcing (the force "still can be viewed" as constnat across the grid). It Requires the setting of a disk radius and diameter for the smearing which is super Gaussian and based on the work by Jané‐Ippel et al. - 2024
 (https://onlinelibrary.wiley.com/doi/10.1002/we.2946)

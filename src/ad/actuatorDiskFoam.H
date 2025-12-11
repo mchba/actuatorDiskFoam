@@ -37,9 +37,10 @@ Group
 Description
     Simple actuator disk (AD) model.
 
-    Two variants:
+    Threee variants:
     - (i)  Calaf AD, T = 0.5*rho*A*Ud**2*Ctp
     - (ii) Fixed AD, T = 0.5*rho*A*Uinf**2*Ct
+    - (iii) Fixed AD, T = 0.5*rho*A*Uinf**2*Ct*smearing
     where
     Ud = disk-averaged velocity
     Uinf = freestream velocity
@@ -84,7 +85,8 @@ protected:
     enum forceMethodType
     {
         CALAF, //!< "Uniform thrust Calaf AD"
-        FIXED, //!< "Uniform thrust fixed-force AD"
+        CONST, //!< "Uniform thrust fixed-force AD"
+        GAUSS, //!< "Uniform thrust fixed-force AD with gaussian smearing"
     };
     static const Enum<forceMethodType> forceMethodTypeNames;
 
@@ -111,7 +113,12 @@ protected:
 
     //- Reference speed (only used in the fixed force AD)
     scalar Uref_fixed_;
-
+   //- parameters used for smearing method
+    scalar centrex;
+    scalar centrey;
+    scalar centrez;
+    scalar Thickness;
+    scalar Diameter;
     //- Function to output file header information
     virtual void writeFileHeader(Ostream& os);
 
@@ -131,10 +138,12 @@ private:
         fvMatrix<vector>& eqn
     );
 
-    //- Compute Calaf AD method
-    void calcFixedMethod(
+    //- Compute constant AD method
+    void calcConstMethod(
         fvMatrix<vector> &eqn);
-
+    //- Compute Const with Gauss smearing AD method
+    void calcGaussMethod(
+        fvMatrix<vector> &eqn);
 public:
 
     //- Runtime type information

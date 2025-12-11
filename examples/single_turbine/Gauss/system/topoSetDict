@@ -26,9 +26,9 @@ actions
         sourceInfo
         {
 	    // search area for applying disk forcing withing
-            p1     (#eval"-10*$dx" 0.0 $zh);
-            p2     (#eval"10*$dx"  0.0 $zh);
-            radius #eval"1.5*40.0";
+            p1     (#eval "-10*$dx" 0.0 $zh);
+            p2     (#eval "10*$dx"  0.0 $zh);
+            radius #eval "1.5*40.0";
         }
     }
     {

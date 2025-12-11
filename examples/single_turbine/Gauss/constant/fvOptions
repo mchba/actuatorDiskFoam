@@ -33,6 +33,6 @@ disk1
     centrez          $zh;
 // dimensions of the turbine fed into kernel (ideally thickness should be 2-4 cells)
     Diameter         80;
-    Thickness        #eval(4*$dx); 
+    Thickness        #eval "4*$dx"; 
 }
 

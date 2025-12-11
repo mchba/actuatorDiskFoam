@@ -18,13 +18,13 @@ FoamFile
 disk1
 {
     type            actuatorDiskFoam;
-    variant         fixed;
+    variant         Const;
     selectionMode   cellSet;
     cellSet         actuationDisk1;
     diskDir         (1 0 0);
     Ct              0.7500;
     diskArea        5026.5;
-    // For the fixed variant, you need to specify a reference velocity,
+    // For the constant variant, you need to specify a reference velocity,
     // which should be equal to the hub height value of the inflow velocity.
     Uref_fixed       8.0;
 }

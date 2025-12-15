@@ -38,9 +38,9 @@ Description
     Simple actuator disk (AD) model.
 
     Threee variants:
-    - (i)  Calaf AD, T = 0.5*rho*A*Ud**2*Ctp
-    - (ii) Fixed AD, T = 0.5*rho*A*Uinf**2*Ct
-    - (iii) Fixed AD, T = 0.5*rho*A*Uinf**2*Ct*smearing
+    - (i)  calaf, T = 0.5*rho*A*Ud**2*Ctp
+    - (ii) const, T = 0.5*rho*A*Uinf**2*Ct
+    - (iii) constgauss, T = 0.5*rho*A*Uinf**2*Ct*smearing
     where
     Ud = disk-averaged velocity
     Uinf = freestream velocity
@@ -133,16 +133,16 @@ private:
     );
 
     //- Compute Calaf AD method
-    void calcCalafMethod
+    void calccalafMethod
     (
         fvMatrix<vector>& eqn
     );
 
     //- Compute constant AD method
-    void calcConstMethod(
+    void calcconstMethod(
         fvMatrix<vector> &eqn);
     //- Compute Const with Gauss smearing AD method
-    void calcGaussMethod(
+    void calcconstgaussMethod(
         fvMatrix<vector> &eqn);
 public:
 

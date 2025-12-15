@@ -73,3 +73,6 @@ Chamorro - https://link.springer.com/article/10.1007/s10546-010-9512-1
 
 King - https://wes.copernicus.org/articles/2/115/2017/
 
+
+Finally be aware that in toposet for Gauss smearing the cylinder volume is now just he general volume that the force will be smeared over so should be grater than the width and radius of the disk itself. This because the kernell itslef will go to zero with distance from the disk
+

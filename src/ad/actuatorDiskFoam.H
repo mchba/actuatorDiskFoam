@@ -39,7 +39,7 @@ Description
 
     Threee variants:
     - (i)  calaf, T = 0.5*rho*A*Ud**2*Ctp
-    - (ii) const, T = 0.5*rho*A*Uinf**2*Ct
+    - (ii) fixed, T = 0.5*rho*A*Uinf**2*Ct
     - (iii) constgauss, T = 0.5*rho*A*Uinf**2*Ct*smearing
     where
     Ud = disk-averaged velocity
@@ -85,7 +85,7 @@ protected:
     enum forceMethodType
     {
         CALAF, //!< "Uniform thrust Calaf AD"
-        CONST, //!< "Uniform thrust fixed-force AD"
+        FIXED, //!< "Uniform thrust fixed-force AD"
         GAUSS, //!< "Uniform thrust fixed-force AD with gaussian smearing"
     };
     static const Enum<forceMethodType> forceMethodTypeNames;
@@ -139,7 +139,7 @@ private:
     );
 
     //- Compute constant AD method
-    void calcconstMethod(
+    void calcfixedMethod(
         fvMatrix<vector> &eqn);
     //- Compute Const with Gauss smearing AD method
     void calcconstgaussMethod(

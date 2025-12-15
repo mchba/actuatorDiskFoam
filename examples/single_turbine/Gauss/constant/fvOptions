@@ -18,7 +18,7 @@ FoamFile
 disk1
 {
     type            actuatorDiskFoam;
-    variant         Gauss;
+    variant         constgauss;
     selectionMode   cellSet;
     cellSet         actuationDisk1;
     diskDir         (1 0 0);

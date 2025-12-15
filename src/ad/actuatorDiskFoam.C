@@ -55,7 +55,7 @@ Foam::fv::actuatorDiskFoam::forceMethodTypeNames
 ({
     { forceMethodType::CALAF, "calaf" },
     { forceMethodType::GAUSS, "constgauss" },
-    { forceMethodType::CONST, "const" },
+    { forceMethodType::FIXED, "fixed" },
 });
 
 
@@ -94,7 +94,7 @@ void Foam::fv::actuatorDiskFoam::writeFileHeader(Ostream& os)
         writeFile::writeCommented(os, "Diameter");
         writeFile::writeCommented(os, "totalThrust");
     }
-    else if (forceMethod_ == forceMethodType::CONST)
+    else if (forceMethod_ == forceMethodType::FIXED)
     {
         writeFile::writeHeader(os, "Fixed force AD");
         writeFile::writeCommented(os, "Time");
@@ -226,9 +226,9 @@ void Foam::fv::actuatorDiskFoam::calc(
         calcconstgaussMethod(eqn);
         break;
     }
-    case forceMethodType::CONST:
+    case forceMethodType::FIXED:
     {
-        calcconstMethod(eqn);
+        calcfixedMethod(eqn);
         break;
     }
     default:
@@ -395,7 +395,7 @@ void Foam::fv::actuatorDiskFoam::calcconstgaussMethod(
     }
 }
 // The fixed-force AD.
-void Foam::fv::actuatorDiskFoam::calcconstMethod(
+void Foam::fv::actuatorDiskFoam::calcfixedMethod(
     fvMatrix<vector> &eqn)
 {
 

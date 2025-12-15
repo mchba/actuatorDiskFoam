@@ -53,9 +53,9 @@ const Foam::Enum
 >
 Foam::fv::actuatorDiskFoam::forceMethodTypeNames
 ({
-    { forceMethodType::CALAF, "Calaf" },
-    { forceMethodType::GAUSS, "Gauss" },
-    { forceMethodType::CONST, "Const" },
+    { forceMethodType::CALAF, "calaf" },
+    { forceMethodType::GAUSS, "constgauss" },
+    { forceMethodType::CONST, "const" },
 });
 
 
@@ -67,7 +67,7 @@ void Foam::fv::actuatorDiskFoam::writeFileHeader(Ostream& os)
 {
     if (forceMethod_ == forceMethodType::CALAF)
     {
-        writeFile::writeHeader(os, "AD based on disk-averaged velocities (Calaf)");
+        writeFile::writeHeader(os, "AD based on disk-averaged velocities (calaf)");
         writeFile::writeCommented(os, "Time");
         writeFile::writeCommented(os, "Uref");
         writeFile::writeCommented(os, "Cp");
@@ -123,7 +123,7 @@ Foam::fv::actuatorDiskFoam::actuatorDiskFoam(
       writeFile(mesh, name, modelType, coeffs_),
       forceMethod_(
           forceMethodTypeNames.getOrDefault(
-              // Retrieve "variant" from the coeffs dictionary and if not found defaults to Calaf.
+              // Retrieve "variant" from the coeffs dictionary and if not found defaults to calaf.
               "variant",
               coeffs_,
               forceMethodType::CALAF)),
@@ -139,7 +139,7 @@ Foam::fv::actuatorDiskFoam::actuatorDiskFoam(
                      [&](const vector &vec)
                      { return mag(vec) > VSMALL; })
               .normalise()),
-      Ct_(coeffs_.get<scalar>("Ct")),                               // Mandatory (both used for Calaf AD and fixed AD)
+      Ct_(coeffs_.get<scalar>("Ct")),                               // Mandatory (both used for calaf AD and fixed AD)
       Cp_fixed_(coeffs_.getOrDefault<scalar>("Cp_fixed", 0.01)),    // Optional (only needed for fixed AD), default 0.01
       Uref_fixed_(coeffs_.getOrDefault<scalar>("Uref_fixed", 0.01)) // Optional (only needed for fixed AD), default 0.01
 
@@ -217,18 +217,18 @@ void Foam::fv::actuatorDiskFoam::calc(
 
     case forceMethodType::CALAF:
     {
-        calcCalafMethod(eqn);
+        calccalafMethod(eqn);
         break;
     }
 
     case forceMethodType::GAUSS:
     {
-        calcGaussMethod(eqn);
+        calcconstgaussMethod(eqn);
         break;
     }
     case forceMethodType::CONST:
     {
-        calcConstMethod(eqn);
+        calcconstMethod(eqn);
         break;
     }
     default:
@@ -242,8 +242,8 @@ void Foam::fv::actuatorDiskFoam::calc(
 ///// (maybe split into separate files in future)  /////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 
-// The Calaf AD.
-void Foam::fv::actuatorDiskFoam::calcCalafMethod(
+// The calaf AD.
+void Foam::fv::actuatorDiskFoam::calccalafMethod(
     fvMatrix<vector> &eqn)
 {
     // Velocity field.
@@ -319,7 +319,7 @@ void Foam::fv::actuatorDiskFoam::calcCalafMethod(
 }
 
 // The fixed-force with super Gaussian smearing AD.
-void Foam::fv::actuatorDiskFoam::calcGaussMethod(
+void Foam::fv::actuatorDiskFoam::calcconstgaussMethod(
     fvMatrix<vector> &eqn)
 {
 
@@ -395,7 +395,7 @@ void Foam::fv::actuatorDiskFoam::calcGaussMethod(
     }
 }
 // The fixed-force AD.
-void Foam::fv::actuatorDiskFoam::calcConstMethod(
+void Foam::fv::actuatorDiskFoam::calcconstMethod(
     fvMatrix<vector> &eqn)
 {
 

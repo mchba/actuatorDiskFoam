@@ -50,6 +50,29 @@ Reasons for disagreement:
 
 With an increased grid resolution and a larger domain, one will get an excellent agreement with the reference data, see Fig. 3a and 3b in [(Baungaard, Nishino and van der Laan, 2025)](https://wes.copernicus.org/preprints/wes-2025-50/).
 
+## Crucial Naming convention
+fixed -is still for the case where the thrust is preset by the user and applied uniformly over the set cylindrical area
+
+calaf -  Ct based on the disk velocity
+
+constgauss - the same as fixed but the force is smeared over the topolgy with a super Gaussian kernel
+
+## Using Gauss
+This smears the force in the axial and radial direction. This is to avoid any numerically wiggles BUT is not the same as using a raidally variable forcing (the force "still can be viewed" as constnat across the grid). It Requires the setting of a disk radius and diameter for the smearing which is super Gaussian and based on the work by Jané‐Ippel et al. - 2024
+(https://onlinelibrary.wiley.com/doi/10.1002/we.2946)
 
 
+<img width="316" height="46" alt="image" src="https://github.com/user-attachments/assets/a97640f2-4419-48c7-b745-ab7ee152a0db" />
+
+
+For the above kernel the original work calibrated the alphas already to 2 and 8 respectivly based on experimental data of Chamorro et al. , see also King et al. The user input is therefore just disk thickness and radius.
+We also print out the actual total thrust applied and the throretical thrust so you can be condfident that this is still conserved.
+
+Chamorro - https://link.springer.com/article/10.1007/s10546-010-9512-1
+
+
+King - https://wes.copernicus.org/articles/2/115/2017/
+
+
+Finally be aware that in toposet for Gauss smearing the cylinder volume is now just he general volume that the force will be smeared over so should be grater than the width and radius of the disk itself. This because the kernell itslef will go to zero with distance from the disk
 

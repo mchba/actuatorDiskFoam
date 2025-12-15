@@ -1,9 +1,0 @@
-#!/bin/bash
-
-
-# Small script to test blockMesh combined with snappy
-
-rm constant/polyMesh -r
-blockMesh                
-snappyHexMesh -overwrite 
-

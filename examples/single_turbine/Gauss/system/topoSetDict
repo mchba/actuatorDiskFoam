@@ -10,22 +10,36 @@ FoamFile
     version         2.0;
     format          ascii;
     class           dictionary;
-    object          fvOptions;
+    object          topoSetDict;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+#include        "../setup"
 
-// Disk 1
-disk1
-{
-    type            actuatorDiskFoam;
-    variant         fixed;
-    selectionMode   cellSet;
-    cellSet         actuationDisk1;
-    diskDir         (1 0 0);
-    Ct              0.7500;
-    diskArea        5026.5;
-    // For the constant variant, you need to specify a reference velocity,
-    // which should be equal to the hub height value of the inflow velocity.
-    Uref_fixed       8.0;
-}
+actions
+(
+    // actuationDisk1
+    {
+        name    actuationDisk1CellSet;
+        type    cellSet;
+        action  new;
+        source  cylinderToCell;
+        sourceInfo
+        {
+	    // search area for applying disk forcing withing
+            p1     (#eval "-10*$dx" 0.0 $zh);
+            p2     (#eval "10*$dx"  0.0 $zh);
+            radius #eval "1.5*40.0";
+        }
+    }
+    {
+        name    actuationDisk1;
+        type    cellZoneSet;
+        action  new;
+        source  setToCellZone;
+        sourceInfo
+        {
+            set actuationDisk1CellSet;
+        }
+    }
 
+);

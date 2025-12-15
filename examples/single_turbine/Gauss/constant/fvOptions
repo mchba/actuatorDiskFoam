@@ -18,7 +18,7 @@ FoamFile
 disk1
 {
     type            actuatorDiskFoam;
-    variant         fixed;
+    variant         constgauss;
     selectionMode   cellSet;
     cellSet         actuationDisk1;
     diskDir         (1 0 0);
@@ -27,5 +27,12 @@ disk1
     // For the constant variant, you need to specify a reference velocity,
     // which should be equal to the hub height value of the inflow velocity.
     Uref_fixed       8.0;
+// turbine position of centre to help with kernel calc
+    centrex          0;
+    centrey          0;
+    centrez          $zh;
+// dimensions of the turbine fed into kernel (ideally thickness should be 2-4 cells)
+    Diameter         80;
+    Thickness        #eval "4*$dx"; 
 }
 

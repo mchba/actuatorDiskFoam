@@ -1,0 +1,48 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                |                                                 |
+| \      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \    /   O peration     | Version:  v2206                                 |
+|   \  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version         2.0;
+    format          ascii;
+    class           dictionary;
+    object          topoSetDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+#include        "../setup"
+
+// Half thickness of the actuator disk
+Dth2 #eval "$Dth/2";
+
+actions
+(
+    // actuationDisk1
+    {
+        name    actuationDisk1CellSet;
+        type    cellSet;
+        action  new;
+        source  cylinderToCell;
+        sourceInfo
+        {
+	    // The cylinder will have a thickness of 2*dx:
+            p1     (-$Dth2 0.0 $zh);
+            p2     ($Dth2  0.0 $zh);
+            radius 40.0;
+        }
+    }
+    {
+        name    actuationDisk1;
+        type    cellZoneSet;
+        action  new;
+        source  setToCellZone;
+        sourceInfo
+        {
+            set actuationDisk1CellSet;
+        }
+    }
+
+);

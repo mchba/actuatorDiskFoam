@@ -1,0 +1,20 @@
+#!/bin/bash
+
+
+# Small script to test blockMesh combined with snappy
+
+rm constant/polyMesh -r
+blockMesh                
+
+# First refinement
+cp system/snappyHexMeshDict1 system/snappyHexMeshDict
+snappyHexMesh -overwrite
+rm system/snappyHexMeshDict
+
+# Second refinement near AD
+cp system/snappyHexMeshDict2 system/snappyHexMeshDict
+snappyHexMesh -overwrite
+rm system/snappyHexMeshDict
+
+
+touch test.foam

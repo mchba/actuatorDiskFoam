@@ -1,0 +1,47 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  v2206
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+
+// You can get the values calculated by #eval by executing the following
+// in the terminal:
+//     foamDictionary setup
+// No need to make backup of setup file before this command.
+
+
+// Domain size and number of cells.
+xMin                -640;                    // Minimum x-extent of domain (m).
+yMin                -640;                    // Minimum y-extent of domain (m).
+zMin                -640;                    // Minimum z-extent of domain (m).
+xMax                640;                     // Maximum x-extent of domain (m).
+yMax                640;                     // Maximum y-extent of domain (m).
+zMax                640;                     // Maximum z-extent of domain (m).
+nx                  64;                      // Number of cells in x-direction.
+ny                  64;                      // Number of cells in y-direction.
+nz                  64;                      // Number of cells in z-direction.
+dx #eval "($xMax-$xMin)/$nx";                // Grid size of background grid (m)
+
+// Grid refinement box
+//refinebox            1;                      // Ratio of outer cell size to inner cell size
+//refinelvls  #eval "log($refinebox)/log(2)";  // Number of refinement levels in box
+
+refinelvls           1;                      // Number of refinement levels in box (0=no refinement, 1=2x, 2=4x, 3=8x, etc)
+refinebox  #eval "pow(2, $refinelvls)";      // Ratio of outer cell size to inner cell size (should be 2^refinelvls)
+dxref #eval "$dx/$refinebox";		             // Grid size in refined region (m)			
+
+
+
+// Turbine settings
+D 80.0;                                      // Turbine diameter (m). PLEASE DO NOT CHANGE THIS VALUE.
+CT 0.75;                                     // Thrust coefficient of the turbine.
+zh 0;                                        // Turbine hub height (m).
+Dth #eval "2*$dxref";                        // Thickness of the AD (m).
+
+// Initial conditions
+Uh 8.0;    // Hub-height streamwise velocity (m/s)
+flowVelocity         ($Uh 0 0);
+pressure             0;
+

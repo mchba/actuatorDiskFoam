@@ -1,0 +1,31 @@
+#!/bin/sh
+
+################################################
+## This is a blockage-study, where the cross-domain
+## size (L=Ly=Lz) is varied to achieve different blockage ratios.
+##
+## Vary L.
+################################################
+
+
+# List of cross domain sizes to be run
+GRID_L="32"
+
+# Loop over each domain size
+for L in $GRID_L; do
+    echo "Running grid size L=Ly=Lz: $L"
+    # Copy the clean folder to a new folder for this grid size
+    cp -r clean case_L${L}
+    # Change to the new case directory
+    cd case_L${L}
+    # Change the cross-domain size value in setup file
+    sed -i "" "s/^L[[:space:]].*/L            $L;/" setup
+    # Now echo that we will run and run the case (Allrun script)
+    echo "Running simulation for grid size $L..."
+    ./Allrun
+    cd ..
+done
+
+
+
+#------------------------------------------------------------------------------

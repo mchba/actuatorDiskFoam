@@ -1,0 +1,38 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # Run from this directory
+
+# Source tutorial run functions:
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+runApplication blockMesh
+
+# Trying to map old solution as initial conditions:
+# mapFields ../7_new_domain_ABL3D -consistent		
+
+# Splitting domain:
+runApplication decomposePar
+
+# runParallel snappyHexMesh -overwrite
+
+# ???:
+find . -type f -iname "*level*" -exec rm {} \;
+
+# Solving:
+runParallel topoSet
+runParallel $(getApplication)
+
+# Reconstruction:
+runApplication reconstructParMesh -constant
+runApplication reconstructPar -constant
+
+# Postprocess surfaces
+runApplication postProcess -func surfaces -latestTime
+mv log.postProcess log.postProcessSurfaces
+runApplication postProcess -func lines -latestTime
+mv log.postProcess log.postProcessLines
+
+# Post process and saving:
+runApplication foamLog log.simpleFoam
+runApplication touch test.foam
+
+#------------------------------------------------------------------------------

@@ -1,0 +1,45 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # Run from this directory
+
+# Source tutorial run functions:
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+runApplication blockMesh
+
+# Splitting domain:
+runApplication decomposePar
+
+# Refinement1
+cp system/snappyHexMeshDict1 system/snappyHexMeshDict
+runParallel snappyHexMesh -overwrite
+rm system/snappyHexMeshDict
+mv log.snappyHexMesh log.snappyHexMesh1
+
+# Refinement2
+cp system/snappyHexMeshDict2 system/snappyHexMeshDict
+runParallel snappyHexMesh -overwrite
+rm system/snappyHexMeshDict
+mv log.snappyHexMesh log.snappyHexMesh2
+
+# Solving:
+runParallel topoSet
+
+runParallel $(getApplication)
+
+# Reconstruction:
+runApplication reconstructParMesh -constant
+runApplication reconstructPar -constant
+
+# Postprocess lines
+runApplication postProcess -func lines -latestTime
+mv log.postProcess log.postProcessLines
+
+# Postprocess surfaces
+runApplication postProcess -func surfaces -latestTime
+mv log.postProcess log.postProcessSurfaces
+
+# Post process and saving:
+#runApplication foamLog log.simpleFoam
+touch test.foam
+
+#------------------------------------------------------------------------------

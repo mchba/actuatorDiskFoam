@@ -1,0 +1,32 @@
+#!/bin/sh
+
+# Run from this directory:
+cd ${0%/*} || exit 1    
+
+# Source tutorial run functions:
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+# Create mesh:
+runApplication blockMesh
+
+# Splitting domain for parallel solving:
+runApplication decomposePar
+
+# Create the AD locations in the domain:
+runParallel topoSet
+
+# Solve the flow:
+runParallel $(getApplication)
+
+# Reconstruction (needed for parallel flows)
+runApplication reconstructParMesh -constant
+runApplication reconstructPar -constant
+
+# Svaing some files:
+runApplication foamLog log.simpleFoam
+
+# Making a .foam-file, which can be used to load results to Paraview.
+runApplication touch test.foam
+
+
+#------------------------------------------------------------------------------
